@@ -44,9 +44,10 @@ CSV_COLUMNS = ["course_code", "course_title", "total_students"]
 async def lifespan(app: FastAPI):
     app.state.pool = await asyncpg.create_pool(
         DATABASE_URL,
-        min_size=1,
+        min_size=0,
         max_size=2,
-        statement_cache_size=0
+        statement_cache_size=0,
+        ssl="require"
     )
     yield
     await app.state.pool.close()
